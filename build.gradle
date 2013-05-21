@@ -2,9 +2,10 @@ apply plugin: 'groovy'
 apply plugin: 'fatjar'
 apply plugin: 'application'
 apply plugin: 'project-report'
+apply plugin: 'idea'
 
 // The main class of the application
-mainClassName = 'com.practicecamp.services.subscriber'
+mainClassName = 'com.practicecamp.services.subscriber.SubscriberService'
 
 // Use Java 7 by default
 sourceCompatibility = 1.7
