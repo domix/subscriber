@@ -1,5 +1,7 @@
 package com.practicecamp.services.subscriber
 
+import com.practicecamp.services.subscriber.health.SubscriberHealthCheck
+import com.practicecamp.services.subscriber.resources.SubscriberResource
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.assets.AssetsBundle
 import com.yammer.dropwizard.config.Bootstrap
@@ -21,7 +23,7 @@ class SubscriberService extends Service<SubscriberConfiguration> {
 
   @Override
   public void initialize(Bootstrap<SubscriberConfiguration> bootstrap) {
-    bootstrap.setName("subscriber")
+    bootstrap.name = "subscriber"
     bootstrap.addBundle(new AssetsBundle())
     bootstrap.addBundle(new MigrationsBundle<SubscriberConfiguration>() {
       @Override
@@ -33,7 +35,7 @@ class SubscriberService extends Service<SubscriberConfiguration> {
 
   @Override
   public void run(SubscriberConfiguration configuration, Environment environment) throws ClassNotFoundException {
+    environment.addHealthCheck(new SubscriberHealthCheck(configuration.serviceName))
+    environment.addResource(new SubscriberResource())
   }
-}
-
 }

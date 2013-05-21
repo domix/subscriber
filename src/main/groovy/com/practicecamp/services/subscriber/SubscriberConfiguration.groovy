@@ -3,6 +3,7 @@ package com.practicecamp.services.subscriber
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.yammer.dropwizard.config.Configuration
 import com.yammer.dropwizard.db.DatabaseConfiguration
+import org.hibernate.validator.constraints.NotEmpty
 
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
@@ -15,6 +16,9 @@ import javax.validation.constraints.NotNull
  * To change this template use File | Settings | File Templates.
  */
 class SubscriberConfiguration extends Configuration {
+  @NotEmpty
+  String serviceName
+
   @Valid
   @NotNull
   @JsonProperty("database")
