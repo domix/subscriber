@@ -86,10 +86,10 @@ task(dbtest, dependsOn: 'classes', type: JavaExec) {
 }
 
 task(dbtag, dependsOn: 'classes', type: JavaExec) {
-  ant.input(message: 'Tag name', addproperty: 'dbTagName')
-  main = mainClassName
-  classpath = sourceSets.main.runtimeClasspath
-  args 'db', 'tag', dropWizardConfig, ant.dbTagName
+  //ant.input(message: 'Tag name', addproperty: 'dbTagName')
+  //main = mainClassName
+  //classpath = sourceSets.main.runtimeClasspath
+  //args 'db', 'tag', dropWizardConfig, ant.dbTagName
 }
 
 task(dbmigrate, dependsOn: 'classes', type: JavaExec) {

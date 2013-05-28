@@ -1,6 +1,7 @@
 package com.practicecamp.services.subscriber
 
 import com.practicecamp.services.subscriber.health.SubscriberHealthCheck
+import com.practicecamp.services.subscriber.jdbi.SubscriberDAO
 import com.practicecamp.services.subscriber.resources.SubscriberResource
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.assets.AssetsBundle
@@ -8,6 +9,7 @@ import com.yammer.dropwizard.config.Bootstrap
 import com.yammer.dropwizard.config.Environment
 import com.yammer.dropwizard.db.DatabaseConfiguration
 import com.yammer.dropwizard.jdbi.DBIFactory
+import com.yammer.dropwizard.jdbi.bundles.DBIExceptionsBundle
 import com.yammer.dropwizard.migrations.MigrationsBundle
 import org.skife.jdbi.v2.DBI
 
@@ -33,14 +35,19 @@ class SubscriberService extends Service<SubscriberConfiguration> {
         configuration.databaseConfiguration
       }
     })
+    bootstrap.addBundle(new DBIExceptionsBundle())
   }
 
   @Override
   public void run(SubscriberConfiguration configuration, Environment environment) throws ClassNotFoundException {
-    environment.addHealthCheck(new SubscriberHealthCheck(configuration.serviceName))
-    environment.addResource(new SubscriberResource())
+    String serviceName = configuration.serviceName
 
-    final DBIFactory factory = new DBIFactory();
-    final DBI jdbi = factory.build(environment, configuration.getDatabaseConfiguration(), "postgresql");
+    final DBIFactory factory = new DBIFactory()
+    final DBI jdbi = factory.build(environment, configuration.getDatabaseConfiguration(), 'postgresql')
+    final SubscriberDAO dao = jdbi.onDemand(SubscriberDAO)
+
+    environment.addHealthCheck(new SubscriberHealthCheck(serviceName))
+    environment.addResource(new SubscriberResource(serviceName: serviceName, dao: dao))
+
   }
 }
