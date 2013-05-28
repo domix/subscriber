@@ -4,16 +4,16 @@ serviceName: PracticeCampTeaser
 database:
 
   # the name of your JDBC driver
-  driverClass: org.h2.Driver
+  driverClass: org.postgresql.Driver
 
   # the username
-  user: sa
+  user: subscriber_usr
 
   # the password
-  password: sa
+  password: dg5UG7cj2qKd
 
   # the JDBC URL
-  url: jdbc:h2:target/example
+  url: jdbc:postgresql://localhost:5432/subscriber_data
 
 # HTTP-specific options.
 http:

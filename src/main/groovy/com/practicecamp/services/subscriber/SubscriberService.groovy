@@ -7,7 +7,9 @@ import com.yammer.dropwizard.assets.AssetsBundle
 import com.yammer.dropwizard.config.Bootstrap
 import com.yammer.dropwizard.config.Environment
 import com.yammer.dropwizard.db.DatabaseConfiguration
+import com.yammer.dropwizard.jdbi.DBIFactory
 import com.yammer.dropwizard.migrations.MigrationsBundle
+import org.skife.jdbi.v2.DBI
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,5 +39,8 @@ class SubscriberService extends Service<SubscriberConfiguration> {
   public void run(SubscriberConfiguration configuration, Environment environment) throws ClassNotFoundException {
     environment.addHealthCheck(new SubscriberHealthCheck(configuration.serviceName))
     environment.addResource(new SubscriberResource())
+
+    final DBIFactory factory = new DBIFactory();
+    final DBI jdbi = factory.build(environment, configuration.getDatabaseConfiguration(), "postgresql");
   }
 }

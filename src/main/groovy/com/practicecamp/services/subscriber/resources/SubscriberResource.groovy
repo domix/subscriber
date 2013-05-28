@@ -23,7 +23,7 @@ class SubscriberResource {
   private static final Logger LOGGER = LoggerFactory.getLogger(SubscriberResource)
 
   @PUT
-  public void receiveHello(@Valid Subscriber subscriber) {
+  void receiveSubscriber(@Valid Subscriber subscriber) {
     LOGGER.info("Received a subscriber: {}", subscriber);
   }
 }

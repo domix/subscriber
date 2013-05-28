@@ -22,5 +22,5 @@ class SubscriberConfiguration extends Configuration {
   @Valid
   @NotNull
   @JsonProperty("database")
-  DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
+  DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration()
 }
