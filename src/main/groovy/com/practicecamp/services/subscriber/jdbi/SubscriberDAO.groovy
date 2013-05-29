@@ -14,6 +14,7 @@
 */
 package com.practicecamp.services.subscriber.jdbi
 
+import com.practicecamp.services.subscriber.api.Subscriber
 import org.skife.jdbi.v2.sqlobject.Bind
 import org.skife.jdbi.v2.sqlobject.SqlUpdate
 
@@ -29,4 +30,5 @@ import java.sql.Timestamp
 interface SubscriberDAO {
   @SqlUpdate('insert into subscriptions (service, email, date_created) values (:serviceName, :email, :dateCreated)')
   void insert(@Bind('serviceName') String serviceName, @Bind('email') String email, @Bind('dateCreated') Timestamp dateCreated)
+  //List<Subscriber> findAll()
 }
