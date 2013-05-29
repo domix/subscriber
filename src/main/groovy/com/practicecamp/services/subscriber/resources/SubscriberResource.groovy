@@ -36,7 +36,7 @@ import java.sql.Timestamp
  * Time: 19:43
  * To change this template use File | Settings | File Templates.
  */
-@Path('/subscribe')
+@Path('/subscriber')
 @Produces(MediaType.APPLICATION_JSON)
 class SubscriberResource {
   private static final Logger LOGGER = LoggerFactory.getLogger(SubscriberResource)
