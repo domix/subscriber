@@ -38,6 +38,8 @@ class Subscriber {
 
   Long id
 
+  String service
+
   String toString() {
     Objects.toStringHelper(this)
       .add('email', email)

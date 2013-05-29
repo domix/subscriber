@@ -45,17 +45,12 @@ class SubscriberResource {
 
   @PUT
   void receiveSubscriber(@Valid Subscriber subscriber) {
-    LOGGER.info("Received a subscriber: {}", subscriber);
+    LOGGER.info('Received a subscriber: {}', subscriber);
     dao.insert(serviceName, subscriber.email, new Timestamp(System.currentTimeMillis()))
   }
 
   @GET
   List<Subscriber> fetch() {
-    List<Subscriber> result = dao.findAll(serviceName)
-    if(result) {
-      result
-    } else {
-      throw new WebApplicationException(Response.Status.NOT_FOUND)
-    }
+    dao.findAll(serviceName)
   }
 }

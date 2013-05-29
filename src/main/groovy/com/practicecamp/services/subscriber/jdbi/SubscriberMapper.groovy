@@ -31,6 +31,11 @@ import java.sql.SQLException
 class SubscriberMapper implements ResultSetMapper<Subscriber> {
   @Override
   Subscriber map(int index, ResultSet r, StatementContext ctx) throws SQLException {
-    new Subscriber(id: r.getLong('id'), email: r.getString('email'), dateCreated: r.getTimestamp('date_created'))
+    new Subscriber(
+      id: r.getLong('id'),
+      email: r.getString('email'),
+      dateCreated: r.getTimestamp('date_created'),
+      service: ctx.binding.forName('service').toString()
+    )
   }
 }
