@@ -19,6 +19,8 @@ import com.google.common.base.Objects
 import org.hibernate.validator.constraints.Email
 import org.hibernate.validator.constraints.Length
 
+import java.sql.Timestamp
+
 /**
  * Created with IntelliJ IDEA.
  * User: domix
@@ -31,6 +33,10 @@ class Subscriber {
   @Length(max = 60)
   @Email
   String email
+
+  Timestamp dateCreated
+
+  Long id
 
   String toString() {
     Objects.toStringHelper(this)

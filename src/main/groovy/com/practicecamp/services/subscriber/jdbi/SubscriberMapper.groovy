@@ -15,24 +15,22 @@
 package com.practicecamp.services.subscriber.jdbi
 
 import com.practicecamp.services.subscriber.api.Subscriber
-import org.skife.jdbi.v2.sqlobject.Bind
-import org.skife.jdbi.v2.sqlobject.SqlQuery
-import org.skife.jdbi.v2.sqlobject.SqlUpdate
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper
+import org.skife.jdbi.v2.StatementContext
+import org.skife.jdbi.v2.tweak.ResultSetMapper
 
-import java.sql.Timestamp
+import java.sql.ResultSet
+import java.sql.SQLException
 
 /**
  * Created with IntelliJ IDEA.
  * User: domix
- * Date: 21/05/13
- * Time: 11:55
+ * Date: 29/05/13
+ * Time: 00:20
  * To change this template use File | Settings | File Templates.
  */
-@RegisterMapper(SubscriberMapper)
-interface SubscriberDAO {
-  @SqlUpdate('insert into subscriptions (service, email, date_created) values (:serviceName, :email, :dateCreated)')
-  void insert(@Bind('serviceName') String serviceName, @Bind('email') String email, @Bind('dateCreated') Timestamp dateCreated)
-  @SqlQuery('select id, email, date_created from subscriptions where service = :service')
-  List<Subscriber> findAll(@Bind('service') String serviceName)
+class SubscriberMapper implements ResultSetMapper<Subscriber> {
+  @Override
+  Subscriber map(int index, ResultSet r, StatementContext ctx) throws SQLException {
+    new Subscriber(id: r.getLong('id'), email: r.getString('email'), dateCreated: r.getTimestamp('date_created'))
+  }
 }
