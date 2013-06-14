@@ -31,3 +31,4 @@ logs/
 
 # Java class files
 *.class
+.gradletasknamecache

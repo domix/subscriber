@@ -16,7 +16,9 @@ package com.practicecamp.services.subscriber
 
 import com.practicecamp.services.subscriber.health.SubscriberHealthCheck
 import com.practicecamp.services.subscriber.jdbi.SubscriberDAO
+import com.practicecamp.services.subscriber.resources.InvalidRequestExceptionMapper
 import com.practicecamp.services.subscriber.resources.SubscriberResource
+import com.sun.jersey.api.core.ResourceConfig
 import com.yammer.dropwizard.Service
 import com.yammer.dropwizard.assets.AssetsBundle
 import com.yammer.dropwizard.config.Bootstrap
@@ -26,6 +28,8 @@ import com.yammer.dropwizard.jdbi.DBIFactory
 import com.yammer.dropwizard.jdbi.bundles.DBIExceptionsBundle
 import com.yammer.dropwizard.migrations.MigrationsBundle
 import org.skife.jdbi.v2.DBI
+
+import javax.ws.rs.ext.ExceptionMapper
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,7 +64,27 @@ class SubscriberService extends Service<SubscriberConfiguration> {
     final DBI jdbi = factory.build(environment, configuration.getDatabaseConfiguration(), 'postgresql')
     final SubscriberDAO dao = jdbi.onDemand(SubscriberDAO)
 
+    configureExceptionMappers(environment)
     environment.addHealthCheck(new SubscriberHealthCheck(serviceName))
     environment.addResource(new SubscriberResource(serviceName: serviceName, dao: dao))
   }
+
+    private void configureExceptionMappers(Environment environment) {
+        final ResourceConfig config = environment.getJerseyResourceConfig()
+        final Set<Object> singletons = config.getSingletons()
+        final List<Object> singletonsToRemove = new ArrayList<Object>()
+
+        // remove default InvalidEntityException mapper
+        for (Object s : singletons) {
+            if (s instanceof com.yammer.dropwizard.jersey.InvalidEntityExceptionMapper) {
+                singletonsToRemove.add(s)
+            }
+        }
+
+        for (Object s : singletonsToRemove) {
+            config.getSingletons().remove(s)
+        }
+
+        environment.addProvider(new InvalidRequestExceptionMapper())
+    }
 }
