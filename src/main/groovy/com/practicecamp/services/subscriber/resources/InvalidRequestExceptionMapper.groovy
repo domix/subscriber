@@ -1,7 +1,5 @@
 package com.practicecamp.services.subscriber.resources
 
-import com.yammer.dropwizard.validation.InvalidEntityException
-
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.ext.ExceptionMapper
@@ -14,12 +12,13 @@ import javax.ws.rs.ext.ExceptionMapper
  * Time: 11:30 AM
  * To change this template use File | Settings | File Templates.
  */
-class InvalidRequestExceptionMapper implements ExceptionMapper<InvalidEntityException> {
-    @Override
+class InvalidRequestExceptionMapper { //implements ExceptionMapper<InvalidEntityException> {
+
+  /*@Override
     public Response toResponse(InvalidEntityException e) {
         Response.status(422)
                 .type(MediaType.APPLICATION_JSON)
                 .entity(e.getErrors())
                 .build();
-    }
+    }*/
 }

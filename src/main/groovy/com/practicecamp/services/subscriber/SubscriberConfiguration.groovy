@@ -15,8 +15,8 @@
 package com.practicecamp.services.subscriber
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.yammer.dropwizard.config.Configuration
-import com.yammer.dropwizard.db.DatabaseConfiguration
+import io.dropwizard.Configuration
+import io.dropwizard.db.DataSourceFactory
 import org.hibernate.validator.constraints.NotEmpty
 
 import javax.validation.Valid
@@ -36,5 +36,5 @@ class SubscriberConfiguration extends Configuration {
   @Valid
   @NotNull
   @JsonProperty("database")
-  DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration()
+  private DataSourceFactory database = new DataSourceFactory();
 }

@@ -14,22 +14,9 @@
 */
 package com.practicecamp.services.subscriber
 
-import com.practicecamp.services.subscriber.health.SubscriberHealthCheck
-import com.practicecamp.services.subscriber.jdbi.SubscriberDAO
-import com.practicecamp.services.subscriber.resources.InvalidRequestExceptionMapper
-import com.practicecamp.services.subscriber.resources.SubscriberResource
-import com.sun.jersey.api.core.ResourceConfig
-import com.yammer.dropwizard.Service
-import com.yammer.dropwizard.assets.AssetsBundle
-import com.yammer.dropwizard.config.Bootstrap
-import com.yammer.dropwizard.config.Environment
-import com.yammer.dropwizard.db.DatabaseConfiguration
-import com.yammer.dropwizard.jdbi.DBIFactory
-import com.yammer.dropwizard.jdbi.bundles.DBIExceptionsBundle
-import com.yammer.dropwizard.migrations.MigrationsBundle
+import io.dropwizard.setup.Bootstrap
 import org.skife.jdbi.v2.DBI
-
-import javax.ws.rs.ext.ExceptionMapper
+import sindica.to.dropwizard.spring.SpringApplication
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,25 +25,26 @@ import javax.ws.rs.ext.ExceptionMapper
  * Time: 18:25
  * To change this template use File | Settings | File Templates.
  */
-class SubscriberService extends Service<SubscriberConfiguration> {
+class SubscriberService extends SpringApplication<SubscriberConfiguration> {
   public static void main(String[] args) throws Exception {
     new SubscriberService().run(args)
   }
 
   @Override
-  public void initialize(Bootstrap<SubscriberConfiguration> bootstrap) {
+  public void onInitialize(Bootstrap<SubscriberConfiguration> bootstrap) {
     bootstrap.name = "subscriber"
-    bootstrap.addBundle(new AssetsBundle())
-    bootstrap.addBundle(new MigrationsBundle<SubscriberConfiguration>() {
+    //bootstrap.addBundle(new AssetsBundle())
+    /*bootstrap.addBundle(new MigrationsBundle<SubscriberConfiguration>() {
       @Override
       public DatabaseConfiguration getDatabaseConfiguration(SubscriberConfiguration configuration) {
         configuration.databaseConfiguration
       }
     })
     bootstrap.addBundle(new DBIExceptionsBundle())
+    */
   }
 
-  @Override
+  /*@Override
   public void run(SubscriberConfiguration configuration, Environment environment) throws ClassNotFoundException {
     String serviceName = configuration.serviceName
 
@@ -69,22 +57,24 @@ class SubscriberService extends Service<SubscriberConfiguration> {
     environment.addResource(new SubscriberResource(serviceName: serviceName, dao: dao))
   }
 
-    private void configureExceptionMappers(Environment environment) {
-        final ResourceConfig config = environment.getJerseyResourceConfig()
-        final Set<Object> singletons = config.getSingletons()
-        final List<Object> singletonsToRemove = new ArrayList<Object>()
+  private void configureExceptionMappers(Environment environment) {
+    final ResourceConfig config = environment.getJerseyResourceConfig()
+    final Set<Object> singletons = config.getSingletons()
+    final List<Object> singletonsToRemove = new ArrayList<Object>()
 
-        // remove default InvalidEntityException mapper
-        for (Object s : singletons) {
-            if (s instanceof com.yammer.dropwizard.jersey.InvalidEntityExceptionMapper) {
-                singletonsToRemove.add(s)
-            }
-        }
-
-        for (Object s : singletonsToRemove) {
-            config.getSingletons().remove(s)
-        }
-
-        environment.addProvider(new InvalidRequestExceptionMapper())
+    // remove default InvalidEntityException mapper
+    for (Object s : singletons) {
+      if (s instanceof com.yammer.dropwizard.jersey.InvalidEntityExceptionMapper) {
+        singletonsToRemove.add(s)
+      }
     }
+
+    for (Object s : singletonsToRemove) {
+      config.getSingletons().remove(s)
+    }
+
+    environment.addProvider(new InvalidRequestExceptionMapper())
+  }
+
+  */
 }

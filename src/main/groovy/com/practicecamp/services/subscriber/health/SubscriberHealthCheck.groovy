@@ -14,7 +14,8 @@
 */
 package com.practicecamp.services.subscriber.health
 
-import com.yammer.metrics.core.HealthCheck
+import com.codahale.metrics.health.HealthCheck
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,7 +30,7 @@ class SubscriberHealthCheck extends HealthCheck {
   }
 
   @Override
-  protected com.yammer.metrics.core.HealthCheck.Result check() throws Exception {
-    return com.yammer.metrics.core.HealthCheck.Result.healthy()
+  protected HealthCheck.Result check() throws Exception {
+    HealthCheck.Result.healthy()
   }
 }
